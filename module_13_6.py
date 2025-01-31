@@ -42,7 +42,7 @@ class UserState(StatesGroup):
 
 @dp.message_handler(commands=['start'])
 async def start(message):
-    await message.answer('Привет, нажми на одну из появившихся кнопок:', reply_markup=kb)
+    await message.answer('Привет, нажми на одну из появившихся кнопок', reply_markup=kb)
 
 @dp.callback_query_handler(text='F')
 async def info(call):
@@ -52,7 +52,7 @@ async def info(call):
 
 @dp.callback_query_handler(text='R')
 async def set_gender(call):
-    await call.message.answer('Укажите ваш пол (м/ж):', reply_markup=kb_gender)
+    await call.message.answer('Укажите ваш пол', reply_markup=kb_gender)
     await UserState.gender.set()
 
 @dp.callback_query_handler(lambda c: c.data in ['man_gender', 'woman_gender'], state=UserState.gender)
@@ -66,7 +66,7 @@ async def process_gender(call, state):
 async def set_age(call, state):
     activity = float(call.data.split('_')[1])
     await state.update_data(activity=activity)
-    await call.message.answer('Укажите ваш возраст:')
+    await call.message.answer('Укажите ваш возраст')
     await UserState.age.set()
     await call.answer()
 
@@ -75,13 +75,13 @@ async def set_growth(message, state):
     try:
         age = int(message.text)
         if age <= 0:
-            await message.answer('Пожалуйста, введите корректный возраст.')
+            await message.answer('Пожалуйста, введите корректный возраст')
             return
     except ValueError:
-        await message.answer('Пожалуйста, введите число.')
+        await message.answer('Пожалуйста, введите число')
         return
     await state.update_data(age=message.text)
-    await message.answer('Укажите ваш рост:')
+    await message.answer('Укажите ваш рост')
     await UserState.growth.set()
 
 @dp.message_handler(state=UserState.growth)
@@ -89,13 +89,13 @@ async def set_weight(message, state):
     try:
         growth = float(message.text)
         if growth <= 0:
-            await message.answer('Пожалуйста, введите корректный рост.')
+            await message.answer('Пожалуйста, введите корректный рост')
             return
     except ValueError:
-        await message.answer('Пожалуйста, введите число.')
+        await message.answer('Пожалуйста, введите число')
         return
     await state.update_data(growth=message.text)
-    await message.answer('Укажите ваш вес:')
+    await message.answer('Укажите ваш вес')
     await UserState.weight.set()
 
 @dp.message_handler(state=UserState.weight)
@@ -103,17 +103,17 @@ async def set_calories(message, state):
     try:
         weight = float(message.text)
         if weight <= 0:
-            await message.answer('Пожалуйста, введите корректный вес.')
+            await message.answer('Пожалуйста, введите корректный вес')
             return
     except ValueError:
-        await message.answer('Пожалуйста, введите число.')
+        await message.answer('Пожалуйста, введите число')
         return
     await state.update_data(weight=message.text)
     data = await state.get_data()
     if data['gender'] == 'м':
         calories = ((10 * float(data['weight']) + 6.25 * float(data['growth']) - 5 * float(data['age']) + 5) *
                     float(data['activity']))
-        await message.answer(f'Ваша суточная норма: {round(calories, 2)}')
+        await message.answer(f'Ваша суточная норма каллорий: {round(calories, 2)}')
     else:
         calories = ((10 * float(data['weight']) + 6.25 * float(data['growth']) - 5 * float(data['age']) - 161) *
                     float(data['activity']))
@@ -122,9 +122,9 @@ async def set_calories(message, state):
 
 @dp.message_handler()
 async def set_info(message):
-    await message.answer('Я бот помогающий твоему здоровью! '
-                         'Давай рссчитаем твою суточную норму каллорий для оптимального похудения! '
-                         'Расчет произведем по вормуле Миффлина-Сан Жеора! '
+    await message.answer('Я бот помогающий твоему здоровью!'
+                         'Давай рссчитаем твою суточную норму каллорий для оптимального похудения!'
+                         'Расчет произведем по вормуле Миффлина-Сан Жеора!'
                          'Нажмите /start для начала расчета')
 
 if __name__ =='__main__':

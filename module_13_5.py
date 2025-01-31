@@ -30,11 +30,11 @@ class UserState(StatesGroup):
 
 @dp.message_handler(commands=['start'])
 async def start(message):
-    await message.answer('Привет, нажми на одну из появившихся кнопок:', reply_markup=kb)
+    await message.answer('Привет, нажми на одну из появившихся кнопок', reply_markup=kb)
 
 @dp.message_handler(text='go')
 async def set_gender(message):
-    await message.answer('Укажите ваш пол (м/ж):', reply_markup=kb)
+    await message.answer('Укажите ваш пол (м/ж)', reply_markup=kb)
     await UserState.gender.set()
 
 @dp.message_handler(state=UserState.gender)
@@ -43,7 +43,7 @@ async def set_activity(message, state):
         await message.answer('Пожалуйста, введите "м" или "ж"')
         return
     await state.update_data(gender=message.text)
-    await message.answer('Какая у вас активность:\n'
+    await message.answer('Какая у вас активность\n'
                          'Минимальная активность = 1.2\n'
                          'Слабая активность = 1.375\n'
                          'Средняя активность = 1.55\n'
@@ -56,10 +56,10 @@ async def set_age(message, state):
     try:
         activity = float(message.text)
         if activity not in [1.2, 1.375, 1.55, 1.725, 1.9]:
-            await message.answer('Пожалуйста, введите корректное значение активности.')
+            await message.answer('Пожалуйста, введите корректное значение активности')
             return
     except ValueError:
-        await message.answer('Пожалуйста, введите число с точкой в качестве разделителя.')
+        await message.answer('Пожалуйста, введите число с точкой в качестве разделителя')
         return
     await state.update_data(activity=message.text)
     await message.answer('Укажите ваш возраст:')
@@ -70,13 +70,13 @@ async def set_growth(message, state):
     try:
         age = int(message.text)
         if age <= 0:
-            await message.answer('Пожалуйста, введите корректный возраст.')
+            await message.answer('Пожалуйста, введите корректный возраст')
             return
     except ValueError:
-        await message.answer('Пожалуйста, введите число.')
+        await message.answer('Пожалуйста, введите число')
         return
     await state.update_data(age=message.text)
-    await message.answer('Укажите ваш рост:')
+    await message.answer('Укажите ваш рост')
     await UserState.growth.set()
 
 @dp.message_handler(state=UserState.growth)
@@ -84,13 +84,13 @@ async def set_weight(message, state):
     try:
         growth = float(message.text)
         if growth <= 0:
-            await message.answer('Пожалуйста, введите корректный рост.')
+            await message.answer('Пожалуйста, введите корректный рост')
             return
     except ValueError:
-        await message.answer('Пожалуйста, введите число.')
+        await message.answer('Пожалуйста, введите число')
         return
     await state.update_data(growth=message.text)
-    await message.answer('Укажите ваш вес:')
+    await message.answer('Укажите ваш вес')
     await UserState.weight.set()
 
 @dp.message_handler(state=UserState.weight)
@@ -98,10 +98,10 @@ async def set_calories(message, state):
     try:
         weight = float(message.text)
         if weight <= 0:
-            await message.answer('Пожалуйста, введите корректный вес.')
+            await message.answer('Пожалуйста, введите корректный вес')
             return
     except ValueError:
-        await message.answer('Пожалуйста, введите число.')
+        await message.answer('Пожалуйста, введите число')
         return
     await state.update_data(weight=message.text)
     data = await state.get_data()
