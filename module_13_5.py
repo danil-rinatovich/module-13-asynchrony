@@ -6,7 +6,7 @@ from aiogram.dispatcher import FSMContext
 import asyncio
 
 
-token_api = '7928871949:AAFil2VZjlzqKZ-3OkOG7fzYfCLjUaTYdvA'
+token_api = ''
 bot = Bot(token=token_api)
 dp = Dispatcher(bot, storage=MemoryStorage())
 kb = (ReplyKeyboardMarkup(resize_keyboard=True).add(KeyboardButton('Оставить номер телфона ☎', request_contact=True)).
