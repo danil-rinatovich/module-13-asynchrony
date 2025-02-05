@@ -7,7 +7,7 @@ from aiogram.dispatcher import FSMContext
 import asyncio
 
 
-token_api = ''
+token_api = '7928871949:AAFil2VZjlzqKZ-3OkOG7fzYfCLjUaTYdvA'
 bot = Bot(token=token_api)
 dp = Dispatcher(bot, storage=MemoryStorage())
 
